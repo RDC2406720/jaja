@@ -1,0 +1,112 @@
+:root {
+  --bg:#0b132b; 
+  --card:#1c2541; 
+  --ink:#e0e6f8; 
+  --muted:#8791b0; 
+  --accent:#3a86ff;
+}
+
+* {
+  box-sizing:border-box
+}
+
+html,body {
+  height:100%
+}
+
+body {
+  margin:0;
+  font-family:system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--ink)
+}
+
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 1.2rem;
+  background:linear-gradient(90deg,#0b132b,#1c2541);
+  position:sticky;
+  top:0
+}
+
+h1 {
+  margin:0;
+  font-size:1.25rem
+}
+
+main {
+  display:grid;
+  gap:1rem;
+  padding:1rem;
+  max-width:1100px;
+  margin:0 auto
+}
+
+.card {
+  background:var(--card);
+  padding:1rem;
+  border-radius:1rem;
+  box-shadow:0 10px 30px rgba(0,0,0,.25)
+}
+
+.controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+  margin-bottom:.5rem
+}
+
+.controls > * {
+  padding:.5rem .75rem;
+  border-radius:.6rem;
+  border:1px solid #2b3557;
+  background:#0f1a3a;
+  color:var(--ink)
+}
+
+.controls button[disabled] {
+  opacity:.5
+}
+
+.media {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:.5rem
+}
+
+video,canvas {
+  width:100%;
+  max-height:60vh;
+  background:#000;
+  border-radius:.75rem
+}
+
+.hidden { 
+  display:none
+}
+
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:.5rem;
+  margin-top:.5rem
+}
+
+.gallery a,.gallery audio {
+  width:100%
+}
+
+#btnInstall {
+  background:var(--accent);
+  border:none;
+  color:white;
+  font-weight:600
+}
+
+footer {
+  padding:2rem;
+  color:var(--muted);
+  text-align:center
+}

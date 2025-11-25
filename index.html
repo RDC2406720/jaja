@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover">
+    <title>PWA</title>
+    <meta name="theme-color" content="#c634d9">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+    <link rel="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="PWA instalable">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Media PWA</h1>
+        <button id="btnInstall" hidden>Instalar</button>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Camara</h2>
+            <div class="controls">
+                <select id="videoDevices"></select>
+                <button id="btnStartCam">Iniciar</button>
+                <button id="btnStopCam" disabled>Detener</button>
+                <button id="btnFlip" title="Cambiar camara" disabled>Invertir</button>
+                <button id="btnTorch" title="Linterna" disabled>Linterna</button>
+                <button id="btnShot" disabled>Foto</button>
+            </div>
+
+            <div class="media">
+                <video id="video" autoplay playline></video>
+                <canvas id="canvas" class="hidden"></canvas>
+            </div>
+            <div id="photos" class="gellery"></div>
+        </section>
+        
+        <section class="card">
+            <h2>Grabacion de Audio</h2>
+            <div class="controls">
+                <button id="btnStartRec">Grabar</button>
+                <button id="btnStopRec" disabled>Detener</button>
+                <span id="recStatus" aria-live="polite"></span>
+            </div>
+            <div id="audios" class="gallery"></div>
+        </section>
+
+        <section class="card">
+            <h2>Vibracion</h2>
+            <div class="controls">
+                <button id="btnVibrar">Vibrar</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Tono de llamada</h2>
+            <div class="controls">
+                <button id="btnRingtone">Reproducir tono</button>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Compatiblidad y permisos</h2>
+            <ul>
+                <li>Requiere HTTPS y permisos del usuario.</li>
+                <li>IOS restringe mas que Android, si una funcion no aparece es limitacion del navegador</li>
+                <li>Offline, la app carga sin red, captura en video Requiere conexion con el hardware</li>
+            </ul>
+            <details>
+                <summary>
+                    Prueba rapida sin permisos</summary>
+                    <input type="file" accept="image/*;capture=camera,video/*;capture=camera,audio/*">
+            </details>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Media PWA.</p>
+    </footer>
+
+    <script src="app.js" type="module"></script>
+</body>
+</html>
