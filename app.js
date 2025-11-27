@@ -223,86 +223,85 @@ btnStartRec.addEventListener("click", async () => {
   }
 });
 
-// Evento click para detener la grabacion
+//evento click para detener la grabacion
 btnStopRec.addEventListener("click", () => {
-  //Detener la grabacion y liberar el microfono
-  if (mediaRecorder && mediaRecorder.state !== "inactive") {
-    mediaRecorder.stop();
-    btnStartRec.disabled = false; 
-    btnStopRec.disabled = false;
-    // Detiene la pista del stream del recorder
-    mediaRecorder.stream.getTracks().forEach(t => t.stop());
-  }
+	//detener la grabacion y liberar el microfono
+	if (mediaRecorder && mediaRecorder.state !== "inactive") 
+		{
+      mediaRecorder.stop();
+      btnStartRec.disabled = false; //Reactivar el boton de inicio	
+	  btnStopRec.disabled = false; //Desactivar el boton de stop
+	  //detiene la pista del stream del recorder
+	  mediaRecorder.stream.getTracks().forEach(t => t.stop());
+	}
 });
 
-// Sincronizar el estado de los botones de grabacion
+//sincronizar el estado de los botones de grabacion
 btnStartRec.addEventListener("click", () => {
-  btnStartRec.disabled = true;
-  btnStopRec.disabled = false;
+	btnStartRec.disabled = true;
+	btnStopRec.disabled = false;
 });
 
-//Cuando la pestaña o app pierde focus, apagmos la camara para ahorrar recursos
-window.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    stopCam();
-  }
+//cuando la pestaña pierde el foco, detener la grabacion si esta en curso
+window.addEventListener('visibilitychange', () => {
+	  if (document.hidden) { stopCam(); }
 });
 
-//Service Worker registrado
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+if('serviceWorker' in navigator) {
+    window.addEventListener('load', ()=> navigator.serviceWorker.register('./sw.js'));
 }
 
-//Vibración con toggle
-let vibrando = false; //Estado de la vibracion simulada
-let vibrarInterval = null; //Intervalo que remite el patron de vibracion
+//Vibracion con toggle
+let vibrando = false; //estado de la vibracion simulada
+let vibrarInterval = null; //intervalo que repite el patron de vibracion
 const btnVibrar = document.getElementById("btnVibrar");
 
-if (btnVibrar) {
-  btnVibrar.addEventListener("click", () => {
-    //Verifica el soporte de la API de vibracion
-    if (!("vibrate" in navigator)) {
-      alert("Tu dispostivo o navegador no soporta la vibración.");
-      return;
-    }
-    if (!vibrando) {
-      //Inicia vibracion repetida (300ms vibra y 100ms pausa)
-      vibrando = true;
-      btnVibrar.textContent = "Detener vibracion";
-      vibrarInterval = setInterval(() => {
-        navigator.vibrate([300, 100]); //Patron corto
-      }, 400);
-    } else {
-      //Detiene vibracion y limpia intervalo
-      vibrando = false;
-      btnVibrar.textContent = "Vibrar";
-      clearInterval(vibrarInterval);
-      navigator.vibrate(0); //Apagar la vibracion inmediatamente
-    }
-  });
+if (btnVibrar){
+    btnVibrar.addEventListener("click", () =>{
+        //veriica el soporte de la api de vibracion
+        if(!("vibrate" in navigator)) {
+            alert("Tu dispositivo o navegador no soporta la vibracion");
+            return;
+        }
+        if (!vibrando){
+            //inicia vibracion repetida ((300ms vibra y 100ms pausa)
+            vibrando = true;
+            btnVibrar.textContent ="Detener vibración";
+            vibrarInterval= setInterval(()=>{
+                navigator.vibrate([300,100]); //patron corto 
+            }, 400);
+        }else{
+            //detiene vibracion y limpia intervalo
+            vibrando=false;
+            btnVibrar.textContent="vibrar";
+            clearInterval(vibrarInterval);
+            navigator.vibrate(0); //apagar la vibracion inmediatamente
+
+        }
+    });
 }
-
-//Tono de llamada simulado
-let sonando = false; //Estado de la reproduccion
-let ringtoneAudio = new Audio("assets/old_phone_ring.mp3"); //Ruta del audio
-ringtoneAudio.loop = true; //Reproducir un bucle para simular el audio
-
+//tono de llamada simulado
+let sonando =false;
+let ringtoneAudio = new Audio("assets/old_phone_ring.mp3");
+//ruta del audio
+ringtoneAudio.loop = true; //reproducir un bucle para simular el audio
 const btnRingtone = document.getElementById("btnRingtone");
+if (btnRingtone){
+    btnRingtone.addEventListener("click", () => {
+        if(!sonando){
+            //inicia reproduccion del tono y actualiza el texto del boton
+            ringtoneAudio.play().then(() =>{
+                sonando= true;
+                btnRingtone.textContent="Detener tono.";
 
-if (btnRingtone) {
-  btnRingtone.addEventListener("click", () => {
-    if (!sonando) {
-      //Inicia reproduccio del tono y actualiza el texto del boton
-      ringtoneAudio.play()
-      .then(() => {
-        sonando = true;
-        btnRingtone.textContent = "Detener tono.";
-      })
-      .catch(err => alert("No se pudo reproducir el tono. " + err.message));
-    } else {
-      //Pausa y reinicia el audio desde el inicio
-      sonando = false;
-      btnRingtone.textContent = "Reproducir tono.";
-    }
-  });
+            })
+            .catch(err=> alert ("No se pudo reproducir el tono" + err.message));
+        } else{
+            //pausa y reinicia  audio, restableciendo el boton
+            ringtoneAudio.pause();
+            ringtoneAudio.currentTime=0; //vuelve a reiniciar el audio desde el inicio
+            sonando=false;
+            btnRingtone.textContent="Reproducir tono";
+        }
+    });
 }
